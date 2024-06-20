@@ -1,11 +1,41 @@
-from fastapi import FastAPI, APIRouter
+"""Server app config."""
 
-router = APIRouter()
+from contextlib import asynccontextmanager
 
-@router.get("/")
-async def root():
-    return {"message": "Hello World"}
+from fastapi import FastAPI
+from endpoints import endpoint_manager
+from routers import router as routers
+
+DESCRIPTION = """
+This API powers whatever I want to make
+
+It supports: ...
+"""
 
 
-app = FastAPI(title="My API", description="This is a very fancy project, with auto docs for the API", version="0.0.1")
-app.include_router(router)
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Initialize application services."""
+    await endpoint_manager.connect()
+    print("Startup complete")
+    yield
+    print("Shutdown complete")
+
+
+app = FastAPI(
+    title="My Server",
+    description=DESCRIPTION,
+    version="0.1.0",
+    contact={
+        "name": "Hello World Jr",
+        "url": "https://myserver.dev",
+        "email": "helloworld@myserver.dev",
+    },
+    license_info={
+        "name": "MIT",
+        "url": "...",
+    },
+    lifespan=lifespan,
+)
+
+app.include_router(routers)
