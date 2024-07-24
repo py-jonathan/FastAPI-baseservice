@@ -1,7 +1,7 @@
 """Server app config."""
 
 from contextlib import asynccontextmanager
-
+import os
 from fastapi import FastAPI
 from endpoints import endpoint_manager
 from routers import router as routers
