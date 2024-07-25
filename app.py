@@ -5,6 +5,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from endpoints import endpoint_manager
 from routers import router as routers
+from logger import logger
 
 DESCRIPTION = """
 This API powers whatever I want to make
@@ -12,15 +13,14 @@ This API powers whatever I want to make
 It supports: ...
 """
 
-
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Initialize application services."""
     await endpoint_manager.connect()
-    print("Startup complete")
+    logger.info("Connected to database")
     yield
-    print("Shutdown complete")
-
+    await endpoint_manager.disconnect()
+    logger.info("Disconnected from database")
 
 app = FastAPI(
     title="My Server",
