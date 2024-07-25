@@ -29,7 +29,10 @@ I will demonstrate a project with this structure, featuring an MVP: Custom ChatG
 - [x] API documentation.
 - [x] Python and FastAPI documentation (configurations, conventions, HTTP).
 
+### Frontend add on project here > Check it out ...
+
 ---
+
 
 This version improves readability and maintains your original format and intent.
 
