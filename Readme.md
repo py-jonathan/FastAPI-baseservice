@@ -23,6 +23,7 @@ A clear and fast Python codebase for building services that handle HTTP, SSE, an
 ## Demo of a Basic System
 I will demonstrate a project with this structure, featuring an MVP: Custom ChatGPT for everyone. This idea is inspired by typingmind. Users can store, search, and save chat messages with ChatGPT:
 
+When user chat with AI endpoint like GPT, user must have enter API key, product don't store API key and only saved messages to serve functions to users.
 - [x] Support standard authentication functions (Sign In, Sign Up, Change Password, Get Profile, Change API Key).
 - [x] Support full-text search using Elasticsearch's API to search messages for users.
 - [x] Support note-saving of chat messages with ChatGPT.
