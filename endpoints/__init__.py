@@ -6,6 +6,7 @@ init_config : maybe have no auto-complete code :v
 
 from .mongo import MongoClient
 from models.users import User
+from models.conversation import Conversation
 from config import app_config
 
 class EndpointManager:
@@ -16,7 +17,7 @@ class EndpointManager:
         self.mongo.init_config(config["MONGODB"])
 
     async def connect(self):
-        await self.mongo.connect([User])
+        await self.mongo.connect([User, Conversation, ])
     
     async def disconnect(self):
         await self.mongo.disconnect()
