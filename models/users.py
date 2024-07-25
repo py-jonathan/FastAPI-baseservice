@@ -19,11 +19,6 @@ class User(Document):
     username: str = Indexed(unique=True)
     email: str = Indexed(unique=True)
     password: str
-    fullname: str = Field(default=None)
-    avatar: str = Field(default=None)
-    bio: str = Field(default=None)
-    website: str = Field(default=None)
-    location: str = Field(default=None)
     role: Role = Field(default=Role.MEMBER)
     is_active: bool = Field(default=False)
 
