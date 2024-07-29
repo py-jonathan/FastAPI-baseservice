@@ -30,14 +30,14 @@ When user chat with AI endpoint like GPT, user must have enter API key, product 
 - [x] API documentation.
 - [x] Python and FastAPI documentation (configurations, conventions, HTTP).
 
-### Frontend add on project here > Check it out ...
+#### Frontend add on project here > Check it out ...
 
 ---
 
 
 This version improves readability and maintains your original format and intent.
 
-## Prerequisites
+## How to run this project
 ```
 # must run
 Python 3.11.4
@@ -53,6 +53,11 @@ make run
 ```
 
 ---
+
+## Docs to support about Python, Async, Project 
+1. Why I not used env file 
+2. Python AsyncIO, a dificult things !
+
 I was inspired by the repository : [fastapi-best-practices]("https://github.com/zhanymkanov/fastapi-best-practices")
 
 #### Thanks for visting me, If you think this is helpful repo, give me a star :3
