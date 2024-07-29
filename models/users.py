@@ -3,6 +3,7 @@ from datetime import datetime, timezone
 from typing import Optional
 from pydantic import Field
 from enum import Enum
+from bson import ObjectId
 
 
 class Role(str, Enum):
@@ -38,3 +39,13 @@ class User(Document):
     async def find_by_email(cls, email: str) -> Optional["User"]:
         """Get a user by email."""
         return await cls.find_one(cls.email == email)
+    
+    @classmethod
+    async def find_by_id(cls, user_id: str) -> Optional["User"]:
+        """Get a user by id."""
+        return await cls.find_one(cls.id == ObjectId(user_id))
+    
+    @property
+    def id_str(self) -> str:
+        """Get user id as string."""
+        return str(self.id)

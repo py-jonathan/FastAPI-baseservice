@@ -6,7 +6,7 @@ init_config : maybe have no auto-complete code :v
 
 from .mongo import MongoClient
 from models.users import User
-from models.conversation import Conversation
+from models.conversations import Conversation
 from config import app_config
 
 class EndpointManager:
