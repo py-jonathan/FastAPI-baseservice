@@ -23,17 +23,21 @@ A clear and fast Python codebase for building services that handle HTTP, SSE, an
 ## Demo of a Basic System
 I will demonstrate a project with this structure, featuring an MVP: Custom ChatGPT for everyone. This idea is inspired by typingmind. Users can store, search, and save chat messages with ChatGPT:
 
+When user chat with AI endpoint like GPT, user must have enter API key, product don't store API key and only saved messages to serve functions to users.
 - [x] Support standard authentication functions (Sign In, Sign Up, Change Password, Get Profile, Change API Key).
 - [x] Support full-text search using Elasticsearch's API to search messages for users.
 - [x] Support note-saving of chat messages with ChatGPT.
 - [x] API documentation.
 - [x] Python and FastAPI documentation (configurations, conventions, HTTP).
 
+#### Frontend add on project here > Check it out ...
+
 ---
+
 
 This version improves readability and maintains your original format and intent.
 
-## Prerequisites
+## How to run this project
 ```
 # must run
 Python 3.11.4
@@ -49,6 +53,11 @@ make run
 ```
 
 ---
+
+## Docs to support about Python, Async, Project 
+1. Why I not used env file 
+2. Python AsyncIO, a dificult things !
+
 I was inspired by the repository : [fastapi-best-practices]("https://github.com/zhanymkanov/fastapi-best-practices")
 
 #### Thanks for visting me, If you think this is helpful repo, give me a star :3
