@@ -1,8 +1,4 @@
-"""
-Regestration router
-"""
-
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from schemas.users import (
     UserLogin,
     UserRegistration,
@@ -11,53 +7,34 @@ from schemas.users import (
 )
 from models.users import User
 from utils.security import hash_password, verify_password
+from auth.jwt import create_access_token, get_current_user
 
 router = APIRouter()
 
-
 @router.post("/register")
 async def register_user(user_input: UserRegistration):
-    """
-    Register a new user
-    """
-    # check email and username
-    # user = await User.find_by_email(user_input.email)
-    # user = await User.find("email" == user_input.email)
-    # if user:
-    #     raise HTTPException(status_code=400, detail="Email already exists")
-    # else:
     hashed_password = hash_password(user_input.password)
     user = User(**user_input.model_dump(exclude=("password")), password=hashed_password)
     await user.create()
     return user
 
-
 @router.post("/login")
 async def login_user(user_input: UserLogin):
-    """
-    Login user
-    """
     user = await User.find_by_email(user_input.email)
     if not user:
         raise HTTPException(status_code=400, detail="User not found")
     if not verify_password(user_input.password, user.password):
         raise HTTPException(status_code=400, detail="Invalid password")
-    return user
 
+    access_token = create_access_token(data={"sub": user.email})
+    return {"access_token": access_token, "token_type": "bearer"}
 
 @router.post("/logout")
 async def logout_user():
-    """
-    Logout user
-    """
     return {"message": "Logout successful"}
-
 
 @router.post("/reset-password")
 async def reset_password(user_input: UserResetPassword):
-    """
-    Reset user password
-    """
     user: User = await User.find_by_email(user_input.email)
     if not user:
         raise HTTPException(status_code=400, detail="User not found")
@@ -67,17 +44,14 @@ async def reset_password(user_input: UserResetPassword):
     await user.save()
     return user
 
-
 @router.put("/update-profile")
-async def update_profile(user_input: UserProfileUpdate):
-    """
-    Update user profile
-    """
-    user: User = await User.find_by_email(user_input.email)
+async def update_profile(user_input: UserProfileUpdate, current_user: User = Depends(get_current_user)):
+    user = await User.find_by_email(current_user.email)
     if not user:
         raise HTTPException(status_code=400, detail="User not found")
-    else:
-        fields = user_input.model_dump(exclude_none=True)
-        user = user.model_copy(fields)
-        await user.save()
-        return user
+
+    fields = user_input.model_dump(exclude_none=True)
+    for field, value in fields.items():
+        setattr(user, field, value)
+    await user.save()
+    return user

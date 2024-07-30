@@ -1,17 +1,16 @@
 """Server app config."""
 
 from contextlib import asynccontextmanager
-
 from fastapi import FastAPI
 from endpoints import endpoint_manager
-from routers import router as routers
+from routers import admin_routes, ai_routes, auth_routes, users_routes
+from fastapi.responses import JSONResponse
+from middlewares.rate_limit import RateLimitMiddleware
 
 DESCRIPTION = """
 This API powers whatever I want to make
-
 It supports: ...
 """
-
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -20,7 +19,6 @@ async def lifespan(app: FastAPI):
     print("Startup complete")
     yield
     print("Shutdown complete")
-
 
 app = FastAPI(
     title="My Server",
@@ -38,4 +36,12 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-app.include_router(routers)
+app.add_middleware(RateLimitMiddleware, max_requests=100, window_seconds=60, max_ips=10000)
+
+# Include routers
+app.include_router(admin_routes, prefix="/admin", tags=["Admin"])
+app.include_router(ai_routes, prefix="/ai", tags=["AI"])
+app.include_router(auth_routes, prefix="/auth", tags=["Auth"])
+app.include_router(users_routes, prefix="/users", tags=["Users"])
+
+# Note: The elasticsearch_router has been removed as it's not in your current structure
